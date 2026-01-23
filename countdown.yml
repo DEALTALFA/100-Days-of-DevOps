@@ -1,0 +1,20 @@
+#Kubernetes Lvl1 
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: countdown-nautilus
+spec:
+  template:
+    metadata:
+      name: countdown-nautilus
+    spec:
+      containers:
+        - name: container-countdown-nautilus
+          image: ubuntu:latest
+          command: ["/bin/sh", "-c"]
+          args:
+            [
+              " sleep 50;"
+            ]
+      restartPolicy: Never
+      
