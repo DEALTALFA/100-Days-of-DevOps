@@ -39,17 +39,19 @@ runcmd:
   - systemctl start nginx
   - systemctl enable nginx
 EOF
+
 #  Create the Ubuntu VM with Cloud-Init
-az vm create --resource-group kml_rg_main-9aa6e830387340e4  --location eastus --name xfusion-vm   --image Ubuntu2204   --admin-username azureuser   --generate-ssh-keys   --custom-data cloud-init.txt   --size Standard_B1s --storage-sku Standard_LRS
+az vm create --resource-group kml_rg_main-ee1cc95c80854f1d --location eastus --name xfusion-vm   --image Ubuntu2204   --admin-username azureuser   --generate-ssh-keys   --custom-data cloud-init.txt   --size Standard_B1s --storage-sku Standard_LRS
 
 #  Open Port 80 to allow HTTP traffic from the internet
 az vm open-port \
-  --resource-group kml_rg_main-9aa6e830387340e4 \
+  --resource-group kml_rg_main-ee1cc95c80854f1d \
   --name xfusion-vm \
   --port 80 \
   --priority 101
 
 ```
 
-delete eveyrhting related to vm
+delete everything related to vm
+```bash
  az vm delete   --resource-group KML_RG_MAIN-9AA6E830387340E4   --name xfusion-vm   --force-deletion true   --yes
