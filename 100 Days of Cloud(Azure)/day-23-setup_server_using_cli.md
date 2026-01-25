@@ -25,7 +25,7 @@ Use the Azure CLI commands to complete the task.
 
 ```bash
 # get the RG name
-az group list
+az group list -o table
 
 
 # create a cloud-init.txt file
@@ -41,7 +41,10 @@ runcmd:
 EOF
 
 #  Create the Ubuntu VM with Cloud-Init
-az vm create --resource-group kml_rg_main-ee1cc95c80854f1d --location eastus --name xfusion-vm   --image Ubuntu2204   --admin-username azureuser   --generate-ssh-keys   --custom-data cloud-init.txt   --size Standard_B1s --storage-sku Standard_LRS
+az vm create --resource-group kml_rg_main-1ee4cdaae7d046da --location eastus --name xfusion-vm   --image Ubuntu2204   --admin-username azureuser   --generate-ssh-keys   --custom-data cloud-init.txt   --size Standard_B1s --storage-sku Standard_LRS
+
+#list resource
+az resource list --resource-group kml_rg_main-1ee4cdaae7d046da -o table
 
 #  Open Port 80 to allow HTTP traffic from the internet
 az vm open-port \
@@ -50,6 +53,11 @@ az vm open-port \
   --port 80 \
   --priority 101
 
+# open network security group
+az network nsg list --resource-group kml_rg_main-1ee4cda
+
+# get the rule of the group
+az network nsg rule list --resource-group kml_rg_main-1ee4cdaae7d046da --nsg-name xfusion-vmNSG -o table
 ```
 
 delete everything related to vm
