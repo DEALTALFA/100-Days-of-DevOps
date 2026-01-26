@@ -9,44 +9,47 @@ Configure the time-check container to execute the command: while true; do date; 
 
 Create a volume log-volume and mount it at /opt/itadmin/time within the container.
 
+
+
 ```yaml
-apiVersion: v1
-kind: Namespace
-metadata:
-  name: nautilus
----
 apiVersion: v1
 kind: ConfigMap
 metadata:
   name: time-config
   namespace: nautilus
 data:
-    TIME_FREQ: "9"
+  TIME_FREQ: "9"
+
 ---
+
 apiVersion: v1
 kind: Pod
 metadata:
   name: time-check
   namespace: nautilus
+  labels:
+    app: time-check
 spec:
-    containers:
-    - name: time-check
-        image: busybox:latest
-        command: ["/bin/sh", "-c", "while true; do date >> /opt/itadmin/time/time-check.log; sleep $TIME_FREQ; done"]
-        env:
-        - name: TIME_FREQ
-        valueFrom:
-            configMapKeyRef:
-            name: time-config
-            key: TIME_FREQ
-        volumeMounts:
-        - name: log-volume
-        mountPath: /opt/itadmin/time
-    volumes:
+  volumes:
     - name: log-volume
-        emptyDir: {}
+      emptyDir: {}
+  containers:
+    - name: time-check
+      image: busybox:latest
+      volumeMounts:
+        - mountPath: /opt/itadmin/time/
+          name: log-volume
+      envFrom:
+        - configMapRef:
+            name: time-config
+      command: ["/bin/sh", "-c"]
+      args:
+        [
+          "while true; do date; sleep $TIME_FREQ;done > /opt/itadmin/time/time-check.log",
+        ]
 
 ```
+
     
 
 Another way of doing
@@ -87,3 +90,8 @@ spec:
     volumes:
     - name: log-volume
         emptyDir: {}
+
+```
+
+
+
