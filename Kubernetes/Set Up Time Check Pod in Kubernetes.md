@@ -94,4 +94,10 @@ spec:
 ```
 
 
+# Approach
 
+
+| Method | Syntax | Use Case |
+|------|-------------------|------------------|
+|envFrom (Your 1st example)|configMapRef: name: time-config|The "Bulk" approach. It grabs every key in the ConfigMap and turns them into environment variables.|
+|valueFrom (Your 2nd example)|configMapKeyRef: name: time-config, key: TIME_FREQ|The "Surgical" approach. It maps one specific key to a specific environment variable name you choose.
