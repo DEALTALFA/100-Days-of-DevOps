@@ -34,7 +34,8 @@ Here is an example of how the playbook.yml file can be structured to accomplish 
         state: touch
         owner: tony
         group: tony
-      when: inventory_hostname == 'stapp01'  ## or use "{{ ansible_host }}" =='stapp01' if you have declare variable in inverntory
+    ## or use ansible_host =='stapp01' if you have declared in inverntory you should not use double curly braces {{ }} inside a when statement. The when clause is already evaluated as a Jinja2 expression by default.
+      when: inventory_hostname == 'stapp01'
 
     # Task for App Server 2
     - name: Create story.txt on app server 2
