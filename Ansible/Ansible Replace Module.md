@@ -18,4 +18,21 @@ We have a file /opt/devops/media.txt on app server 3. Using Ansible replace modu
   become: yes
   tasks:
     - name: Replace xFusionCorp with Nautilus in blog.txt on app server 1
-      replace: 
+      replace:
+        path: /opt/devops/blog.txt
+        regexp: 'xFusionCorp'
+        replace: 'Nautilus'
+      when: inventory_hostname == 'stapp01'
+    - name: Replace Nautilus with KodeKloud in story.txt on app server 2
+      replace:
+        path: /opt/devops/story.txt
+        regexp: 'Nautilus'
+        replace: 'KodeKloud'
+      when: inventory_hostname == 'stapp02'
+    - name: Replace KodeKloud with xFusionCorp Industries in media.txt on app server 3
+      replace:
+        path: /opt/devops/media.txt
+        regexp: 'KodeKloud'
+        replace: 'xFusionCorp Industries'
+      when: inventory_hostname == 'stapp03'
+```
