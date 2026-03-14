@@ -35,4 +35,32 @@ We have a file /opt/devops/media.txt on app server 3. Using Ansible replace modu
         regexp: 'KodeKloud'
         replace: 'xFusionCorp Industries'
       when: inventory_hostname == 'stapp03'
+
+---
+
+- name: Replace strings in files on app servers
+  hosts: all
+  become: yes
+  vars:
+    file_name:
+      - hostname: stapp01
+        ch_file: blog.txt
+        string_find: xFusionCorp
+        string_replace: Nautilus
+      - hostname: stapp02
+        ch_file: story.txt
+        string_find: Nautilus
+        string_replace: KodeKloud
+      - hostname: stapp03
+        ch_file: media.txt
+        string_find: KodeKloud
+        string_replace: xFusionCorp Industries
+  tasks:
+    - name: "Replace {{ item.string_find }} with {{ item.string_replace }} in {{ item.ch_file }} on {{ item.hostname }}"
+      replace:
+        path: "/opt/dba/{{ item.ch_file }}"
+        regexp: "{{ item.string_find }}"
+        replace: "{{ item.string_replace }}"
+      loop: "{{ file_name }}"
+      when: inventory_hostname == item.hostname
 ```
