@@ -15,3 +15,18 @@ d. Make sure user thor should be able to run the playbook on jump host.
 
 ```yaml
 ---
+- name: Install and manage vsftpd service on app servers
+  hosts: all
+  become: yes
+  tasks:
+    - name: Install vsftpd package
+      ansible.builtin.yum:
+        name: vsftpd
+        state: present
+
+    - name: Start and enable vsftpd service
+      ansible.builtin.service:
+        name: vsftpd
+        state: started
+        enabled: yes
+```
