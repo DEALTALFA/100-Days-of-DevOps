@@ -25,3 +25,41 @@ The /var/www/html/index.html file's user and group owner should be apache on all
 
 
 The /var/www/html/index.html file's permissions should be 0655 on all app servers.
+
+```yaml
+- hosts: all
+  become: true
+  tasks:
+    - name: "Install httpd on server"
+      package:
+        name: "httpd"
+        state: "present"
+    - name: "start httpd"
+      service:
+        name: "httpd"
+        state: "started"
+        enabled: "yes"
+    - name: "Add content to file"
+      copy:
+        content: |
+          This is a Nautilus sample file, created using Ansible!
+        dest: "/var/www/html/index.html"
+        owner: "apache"
+        group: "apache"
+        mode: "0655"
+    - name: "Add line at the top of the file"
+      lineinfile:
+        line: "Welcome to Nautilus Group!"
+        group: "apache"
+        owner: "apache"
+        mode: "0655"
+        dest: "/var/www/html/index.html"
+        state: present
+        insertafter: BOF
+    - name: "Check"
+      command: cat /var/www/html/index.html
+      register: command_output
+    - debug:
+        msg: "{{ command_output.stdout_lines }}"
+```
+
