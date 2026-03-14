@@ -25,6 +25,8 @@ A collection of hands-on DevOps, Cloud, and Infrastructure automation tasks.
 
 ### Ansible
 - Blockinfile and Unarchive modules
+- Lineinfile and Replace modules
+- Managing services
 - Soft links creation
 - ACL management
 
