@@ -16,5 +16,4 @@ spec:
             [
               " sleep 50;"
             ]
-      restartPolicy: Never
-      
+      restartPolicy: Never 
