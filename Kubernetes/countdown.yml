@@ -2,11 +2,11 @@
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name: countdown-nautilus
+  name: countdown-nautilus-tl
 spec:
   template:
     metadata:
-      name: countdown-nautilus
+      name: countdown-nautilus-tl
     spec:
       containers:
         - name: container-countdown-nautilus
